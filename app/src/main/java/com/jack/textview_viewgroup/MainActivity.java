@@ -93,14 +93,12 @@ public class MainActivity extends AppCompatActivity {
 
             textView.setBackground(getResources().getDrawable(R.drawable.text_view_bg));
             textView.setTag(str);
-            textView.setOnTouchListener(new View.OnTouchListener() {
+            textView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    Toast.makeText(MainActivity.this, "你点击了 " + v.getTag(), Toast.LENGTH_SHORT).show();
-                    return false;
+                public void onClick(View v) {
+                    Toast.makeText(MainActivity.this, "" + v.getTag(), Toast.LENGTH_SHORT).show();
                 }
             });
-
 
             viewGroup.addView(textView, index);
             index++;

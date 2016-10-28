@@ -98,8 +98,8 @@ public class TextViewGroup extends ViewGroup {
         int childViewWidth = l;                                                                     //一行child宽度和，用于判断是否超出父的宽度
         int start_index = 0;
         int end_index = 0;
-        int startX = l;
-        int startY = t;
+        int startX = 0;
+        int startY = 0;
         int space;
         for(int i = 0; i < childCount; i++){
             View child = getChildAt(i);
@@ -108,7 +108,7 @@ public class TextViewGroup extends ViewGroup {
             int sizeHeight = child.getMeasuredHeight();
             space = r - childViewWidth;                                                             //一行里面的剩余空间
             childViewWidth = childViewWidth + default_space + sizeWidth;                            //一行view的宽度和 = 组件宽度 + 间隔
-            if(childViewWidth > r - 30){
+            if(childViewWidth > r){
                 end_index = i;
                 onLayoutChildView(start_index, end_index, startX, startY, space);
                 startY = startY + default_space + sizeHeight;
@@ -122,7 +122,7 @@ public class TextViewGroup extends ViewGroup {
          * 说明还有一部分没有布局的child
          */
         if(end_index != childCount){
-            onLayoutChildView(start_index, childCount, l, startY, 0);
+            onLayoutChildView(start_index, childCount, 0, startY, 0);
         }
         second_enter++;
     }
@@ -140,9 +140,9 @@ public class TextViewGroup extends ViewGroup {
         int endX = 0;
         int endY = 0;
         int sub_space = 0;                                                                           //需要将每行的剩余空间分摊到每个组件上去,减去30是一个选取的值，防止计算大小的精确问题，超出右边父的最长宽度
-        if(space - 30 > 0){
-            int view_numbers = end_index - start_index + 1;
-            sub_space = (space - 30)/ view_numbers;
+        if(space > 0){
+            int view_numbers = end_index - start_index;
+            sub_space = space/ view_numbers;
         }
         int i;
         for(i = start_index; i < end_index; i++){
@@ -156,7 +156,7 @@ public class TextViewGroup extends ViewGroup {
             }
                                                                                                     //每排最后一个必须等于右边限制的位置，对齐；除了最后一排单独几个那种
             if(i == end_index - 1 && space != 0){
-                endX = parent_width - 30;
+                endX = parent_width;
             }
             child.layout(start_x, start_y, endX, endY);
 
